@@ -2,10 +2,16 @@ import requests
 import time
 
 class Country:
-    def __init__(self, data):
+    def __init__(self, name, data):
         self.data = data
+        self.name = name
+
+    def getName(self):
+        return self.name
 
     def getRate(self):
+        if(self.data['NewRecovered'] == 0):
+            return self.data['NewConfirmed']
         return self.data['NewConfirmed'] / self.data['NewRecovered']
 
     def getInfected(self):
@@ -13,6 +19,49 @@ class Country:
 
     def getData(self):
         return self.data
+
+    def compare(self, country):
+        return country.getRate() < self.getRate()
+
+class CountryList:
+
+    def __init__(self, data):
+        self.list = data.values()
+        self.worstFirst = False
+
+    def worst(self):
+        if(self.worstFirst):
+            return self.list[0]
+        else:
+            return self.list[-1]
+
+    def best(self):
+        if(self.worstFirst):
+            return self.list[-1]
+        else:
+            return self.list[0]
+
+    def sortByRate(self):
+        sorted = list()
+        origin = list(self.list)
+        for i in range(len(self.list)): 
+            index = 0
+            max = origin[0]
+            maxIndex = 0
+            for entry in origin:
+                if(entry.getRate() > max.getRate()):
+                    maxIndex = index
+                    max = entry
+                index += 1
+            sorted.append(max)
+            origin.remove(max)
+        self.worstFirst = True
+        self.list = sorted
+        return self
+            
+        
+
+
 
 class CovidCore:
 
@@ -37,22 +86,26 @@ class CovidCore:
             pass
 
     def reloadData(self):
+        self.countries = dict()
+        self.world = None
         before = int(time.time() * 1000)
         request = requests.get(url = self.base)
         self.data = request.json()
         self.loaded = 'Countries' in self.data
         after = int(time.time() * 1000) - before
+        for country in self.data['Countries']:
+            self.countries[country['Country'].lower()] = Country(country['Country'], country)
+        self.world = Country('World', self.data['Global'])
         self.debug("Data loaded in " + str(after) + " ms")
 
     def getCountry(self, name):
-        if(not self.loaded):
-            return None
-        searchCode = len(name) == 2
-        if(searchCode):
-            name = name.lower()
-        for country in self.data['Countries']:
-            if(searchCode and country['CountryCode'].lower() == name or not searchCode and country['Country'] == name):
-                return Country(country)
-        return None
+        if(name in self.countries):
+            return self.countries[name]
+
+    def getCountryList(self):
+        return CountryList(self.countries)
+
+    def getWorld(self):
+        return self.world
 
 
