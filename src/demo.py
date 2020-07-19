@@ -8,9 +8,9 @@ brasil = core.getCountry('brazil')
 
 world = core.getWorld()
 
-print("Growth germany", germany.getRate())
-print("Growth brasil", brasil.getRate())
-print("Growth world", world.getRate())
+print("Growth germany", germany.getRFactor())
+print("Growth brasil", brasil.getFactor())
+print("Growth world", world.getRFactor())
 
 print()
 
@@ -19,8 +19,8 @@ print()
 countryList = core.getCountryList()
 
 countryList.sortByRate()
-print("Worst country", countryList.worst().getName(), countryList.worst().getRate())
-print("Best country", countryList.best().getName(), countryList.best().getRate())
+print("Worst country", countryList.worst().getName(), countryList.worst().getRFactor())
+print("Best country", countryList.best().getName(), countryList.best().getRFactor())
 
 print()
 

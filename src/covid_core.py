@@ -9,7 +9,7 @@ class Country:
     def getName(self):
         return self.name
 
-    def getRate(self):
+    def getRFactor(self):
         if(self.data['NewRecovered'] == 0):
             return self.data['NewConfirmed']
         return self.data['NewConfirmed'] / self.data['NewRecovered']
@@ -24,7 +24,7 @@ class Country:
         return self.data[key]
 
     def compare(self, country):
-        return country.getRate() < self.getRate()
+        return country.getRFactor() < self.getRFactor()
 
 class CountryList:
 
@@ -44,15 +44,14 @@ class CountryList:
         else:
             return self.list[0]
 
-    def sortByRate(self):
+    def sortByRFactor(self):
         sorted = list()
         origin = list(self.list)
         for i in range(len(self.list)): 
             index = 0
             max = origin[0]
-            maxIndex = 0
             for entry in origin:
-                if(entry.getRate() > max.getRate()):
+                if(entry.getRFactor() > max.getRFactor()):
                     maxIndex = index
                     max = entry
                 index += 1
@@ -68,7 +67,6 @@ class CountryList:
         for i in range(len(self.list)): 
             index = 0
             max = origin[0]
-            maxIndex = 0
             for entry in origin:
                 if(entry.getData()[value] > max.getData()[value]):
                     maxIndex = index
