@@ -32,6 +32,16 @@ print()
 countryList.sortByValue('TotalConfirmed')
 print("Most infections", countryList.worst().getName(), countryList.worst().value('TotalConfirmed'))
 
+#Worldwide example
+
+
+from covid_core import *
+    
+core = CovidCore()
+world = core.getWorld()
+brazil = core.getCountry('brazil')
+
+print("Portion of worldwide cases in brazil:", int( ( brazil.value('TotalConfirmed') / world.value('TotalConfirmed') ) * 100 ), "%")
 
 
 
