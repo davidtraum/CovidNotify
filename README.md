@@ -1,6 +1,6 @@
-### Simple Python API for corona data using covid19api.com
+# Simple Python API for corona data using covid19api.com
 
-# Example: Getting country data
+## Example: Getting country data
 
     from covid_core import *
 
@@ -11,7 +11,7 @@
     print( country.value('TotalRecovered') )
     print( country.value('TotalConfirmed') )
 
-# Example: Sorting
+## Example: Sorting
 
     from covid_core import * 
 
@@ -24,7 +24,7 @@
     countryList.sortByRFactor()
     print("Lowest R-Factor:", countryList.best().getName())
 
-# Example: Worldwide
+## Example: Worldwide
 
     from covid_core import *
     
