@@ -44,6 +44,9 @@ class CountryList:
         else:
             return self.list[0]
 
+    def getList(self):
+        return self.list
+
     def sortByRFactor(self):
         sorted = list()
         origin = list(self.list)
@@ -106,6 +109,7 @@ class CovidCore:
 
     def reloadData(self):
         self.countries = dict()
+        self.countriesLong = dict()
         self.world = None
         before = int(time.time() * 1000)
         request = requests.get(url = self.base)
@@ -113,13 +117,18 @@ class CovidCore:
         self.loaded = 'Countries' in self.data
         after = int(time.time() * 1000) - before
         for country in self.data['Countries']:
-            self.countries[country['Country'].lower()] = Country(country['Country'], country)
+            instance = Country(country['Country'], country)
+            self.countries[country['CountryCode'].lower()] = instance
+            self.countriesLong[country['Country'].lower()] = instance
         self.world = Country('World', self.data['Global'])
         self.debug("Data loaded in " + str(after) + " ms")
 
     def getCountry(self, name):
+        name = name.lower()
         if(name in self.countries):
             return self.countries[name]
+        elif(name in self.countriesLong):
+            return self.countriesLong[name]
 
     def getCountryList(self):
         return CountryList(self.countries)

@@ -34,7 +34,6 @@ print("Most infections", countryList.worst().getName(), countryList.worst().valu
 
 #Worldwide example
 
-
 from covid_core import *
     
 core = CovidCore()
