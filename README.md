@@ -5,8 +5,8 @@
     from covid_core import *
 
     core = CovidCore()
-
     country = core.getCountry('germany')
+
     print( country.getRFactor() )
     print( country.value('TotalRecovered') )
     print( country.value('TotalConfirmed') )
@@ -30,4 +30,7 @@
     
     core = CovidCore()
     world = core.getWorld()
-    
+    brazil = core.getCountry('brazil')
+
+    print("Portion of worldwide cases in brazil:", int( ( brazil.value('TotalConfirmed') / world.value('TotalConfirmed) ) * 100 ), "%")
+
