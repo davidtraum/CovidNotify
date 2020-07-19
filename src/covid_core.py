@@ -1,6 +1,19 @@
 import requests
 import time
 
+class Country:
+    def __init__(self, data):
+        self.data = data
+
+    def getRate(self):
+        return self.data['NewConfirmed'] / self.data['NewRecovered']
+
+    def getInfected(self):
+        return self.data['TotalConfirmed'] - self.data['TotalRecovered']
+
+    def getData(self):
+        return self.data
+
 class CovidCore:
 
     def __init__(self, base = 'https://api.covid19api.com/summary', debug=False):
@@ -13,6 +26,15 @@ class CovidCore:
     def debug(self, msg):
         if(self.printDebug):
             print("[CovidCore]", msg)
+
+    def dataIsDifferent(self, d1, d2):
+        return d1['Countries']!=d2['Countries']
+
+    def pollMeasurement(self):
+        self.dataBefore = self.data.copy()
+        self.reloadData()
+        if(self.dataIsDifferent(self.dataBefore, self.data)):
+            pass
 
     def reloadData(self):
         before = int(time.time() * 1000)
@@ -30,7 +52,7 @@ class CovidCore:
             name = name.lower()
         for country in self.data['Countries']:
             if(searchCode and country['CountryCode'].lower() == name or not searchCode and country['Country'] == name):
-                return country
+                return Country(country)
         return None
 
 

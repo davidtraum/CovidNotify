@@ -1,5 +1,7 @@
-from covid_core import CovidCore
+from covid_core import CovidCore,Country
 
 #Prints total covid-19 cases in germany
-core = CovidCore(debug = True)
-print("Total cases in germany:", core.getCountry('de')['TotalConfirmed'])
+core = CovidCore()
+germany = core.getCountry('de')
+
+print("Growth factor:", germany.getRate())
