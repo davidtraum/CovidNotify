@@ -16,10 +16,24 @@ print()
 
 #Country List example
 
-sortedList = core.getCountryList().sortByRate()
+countryList = core.getCountryList()
 
-print("Worst country", sortedList.worst().getName(), sortedList.worst().getRate())
-print("Best country", sortedList.best().getName(), sortedList.best().getRate())
+countryList.sortByRate()
+print("Worst country", countryList.worst().getName(), countryList.worst().getRate())
+print("Best country", countryList.best().getName(), countryList.best().getRate())
+
+print()
+
+countryList.sortByValue('TotalDeaths')
+print("Most deaths", countryList.worst().getName(), countryList.worst().value('TotalDeaths'))
+
+print()
+
+countryList.sortByValue('TotalConfirmed')
+print("Most infections", countryList.worst().getName(), countryList.worst().value('TotalConfirmed'))
+
+
+
 
 
 

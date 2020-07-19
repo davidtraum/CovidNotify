@@ -20,6 +20,9 @@ class Country:
     def getData(self):
         return self.data
 
+    def value(self, key):
+        return self.data[key]
+
     def compare(self, country):
         return country.getRate() < self.getRate()
 
@@ -27,7 +30,7 @@ class CountryList:
 
     def __init__(self, data):
         self.list = data.values()
-        self.worstFirst = False
+        self.worstFirst = True
 
     def worst(self):
         if(self.worstFirst):
@@ -50,6 +53,24 @@ class CountryList:
             maxIndex = 0
             for entry in origin:
                 if(entry.getRate() > max.getRate()):
+                    maxIndex = index
+                    max = entry
+                index += 1
+            sorted.append(max)
+            origin.remove(max)
+        self.worstFirst = True
+        self.list = sorted
+        return self
+
+    def sortByValue(self, value):
+        sorted = list()
+        origin = list(self.list)
+        for i in range(len(self.list)): 
+            index = 0
+            max = origin[0]
+            maxIndex = 0
+            for entry in origin:
+                if(entry.getData()[value] > max.getData()[value]):
                     maxIndex = index
                     max = entry
                 index += 1
